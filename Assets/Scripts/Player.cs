@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
    [SerializeField]
    private float _pushPower = 2.0f;
 
-   // Start is called before the first frame update
    void Start()
    {
       _controller = GetComponent<CharacterController>();
@@ -60,39 +59,22 @@ public class Player : MonoBehaviour
       }
       else // if player controller is in mid air
       {
-         //if (Input.GetKeyDown(KeyCode.Space))
-         //{
-         //   if (_canWallJump == false)
-         //   {
-         //      if (_canDoubleJump == true)
-         //      {
-         //         _yVelocity += _jumpHeight;
-         //         _canDoubleJump = false;
-         //      }
-         //   }
-         //   else if (_canWallJump == true)
-         //   {
-         //      // bounce off wall
-         //      _yVelocity = _jumpHeight;
-         //      _velocity = _wallSurfaceNormal * _speed;
-         //   }
-         //}
-
-         // more consistent player behavior than above
-         if (Input.GetKeyDown(KeyCode.Space) && _canWallJump == false)
+         if (Input.GetKeyDown(KeyCode.Space))
          {
-            if (_canDoubleJump == true)
+            if (_canWallJump == false)
             {
-               _yVelocity += _jumpHeight;
-               _canDoubleJump = false;
+               if (_canDoubleJump == true)
+               {
+                  _yVelocity += _jumpHeight;
+                  _canDoubleJump = false;
+               }
             }
-         }
-
-         else if (Input.GetKeyDown(KeyCode.Space) && _canWallJump == true)
-         {
-            // bounce off wall
-            _yVelocity = _jumpHeight;
-            _velocity = _wallSurfaceNormal * _speed;
+            else if (_canWallJump == true)
+            {
+               // bounce off wall
+               _yVelocity = _jumpHeight;
+               _velocity = _wallSurfaceNormal * _speed;
+            }
          }
 
          _yVelocity -= _gravity;
@@ -122,27 +104,15 @@ public class Player : MonoBehaviour
          // push block toward pressure pad
          Debug.Log("Player hit movable box!");
 
-
          // confirm rigidbody
          //box = hit.collider.GetComponent<Rigidbody>();
          box = hit.collider.attachedRigidbody;
-
-         //if (box == null  || box.isKinematic)
-         //{
-         //   return;
-         //}
-
-         // don't want to push box below - ??
-         //if (hit.moveDirection.y < -0.3f)
-         //{
-         //   return;
-         //}
 
          if (box != null)
          {
             // calculate move dirction - push sideways, only
             Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0, 0);
-            
+
             // apply push
             box.velocity = pushDirection * _pushPower;
          }

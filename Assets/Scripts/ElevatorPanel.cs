@@ -29,8 +29,7 @@ public class ElevatorPanel : MonoBehaviour
       // if other tag is "Player"
       if (other.tag == "Player")
       {
-         // if the "e" key is pressed and 
-         // if num of collectables >= 8
+         // if the "e" key is pressed and required collectables met
          if (Input.GetKeyDown(KeyCode.E) && (player.CoinsCollected() >= _requiredCoins))
          {
             // toggle the panel call button
@@ -50,14 +49,11 @@ public class ElevatorPanel : MonoBehaviour
             // call and lower the elevator
             _elevator.CallElevator();
          }
-         //else
-         //{
-         //   // play fail audio
-         //   Debug.LogError("Insufficient Coins " + player.CoinsCollected() + ": 8 coins are required to call the elevetor.");
-         //}
+         else
+         {
+            // play fail audio
+            //Debug.LogError("Insufficient Coins " + player.CoinsCollected() + ": " + _requiredCoins + " coins are required to call the elevetor.");
+         }
       }
-
-      // note: in elevator routine - change the call button back to red after
-      // player exits elevator
    }
 }

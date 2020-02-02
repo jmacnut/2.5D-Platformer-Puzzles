@@ -53,9 +53,6 @@ public class Elevator : MonoBehaviour
       {
          other.transform.SetParent(this.transform);
       }
-
-      // turn off elevator control light
-
    }
 
    private void OnTriggerExit(Collider other)

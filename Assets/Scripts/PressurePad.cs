@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PressurePad : MonoBehaviour
 {
-   // disable the box's rigidbody or set kinematic
-
    private void OnTriggerStay(Collider other)
    {
       // detect moving box
@@ -29,9 +27,10 @@ public class PressurePad : MonoBehaviour
             {
                // change color of pressure pad to blue
                padRenderer.material.color = Color.blue;
+               // change box color to blue
+               //box.GetComponent<MeshRenderer>().material.color = Color.blue;
             }
          }
       }
-
    }
 }
