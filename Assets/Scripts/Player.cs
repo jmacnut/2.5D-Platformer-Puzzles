@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
    private Vector3 _velocity;
    private bool _canWallJump;
    private Vector3 _wallSurfaceNormal;
+   [SerializeField]
+   private float _pushPower = 2.0f;
 
    // Start is called before the first frame update
    void Start()
@@ -103,6 +105,8 @@ public class Player : MonoBehaviour
 
    private void OnControllerColliderHit(ControllerColliderHit hit)
    {
+      Rigidbody box;
+
       // hit the wall in mid air
       if (_controller.isGrounded == false && hit.transform.tag == "Wall")
       {
@@ -110,6 +114,38 @@ public class Player : MonoBehaviour
          Debug.DrawRay(hit.point, hit.normal, Color.blue);
          _wallSurfaceNormal = hit.normal;
          _canWallJump = true;
+      }
+
+      // if hits block, push block to switch
+      if (_controller.isGrounded == true && hit.transform.tag == "Box")
+      {
+         // push block toward pressure pad
+         Debug.Log("Player hit movable box!");
+
+
+         // confirm rigidbody
+         //box = hit.collider.GetComponent<Rigidbody>();
+         box = hit.collider.attachedRigidbody;
+
+         //if (box == null  || box.isKinematic)
+         //{
+         //   return;
+         //}
+
+         // don't want to push box below - ??
+         //if (hit.moveDirection.y < -0.3f)
+         //{
+         //   return;
+         //}
+
+         if (box != null)
+         {
+            // calculate move dirction - push sideways, only
+            Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0, 0);
+            
+            // apply push
+            box.velocity = pushDirection * _pushPower;
+         }
       }
    }
 
